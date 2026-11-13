@@ -14,8 +14,13 @@ def test_app_runs_on_sample_data():
     at.sidebar.radio[0].set_value("Sample (synthetic demo data)").run()
     assert not at.exception, [e.value for e in at.exception]
     assert any("Synthetic sample data" in w.value for w in at.warning)
-    assert len(at.tabs) == 7
-    assert at.tabs[5].markdown, "IC memo tab rendered no content"
+    labels = [tab.label for tab in at.tabs]
+    for expected in ("Summary", "Valuation", "LBO", "Football field", "IC memo & export", "Comps", "DCF"):
+        assert expected in labels, labels
+    memo_tab = at.tabs[labels.index("IC memo & export")]
+    assert memo_tab.markdown, "IC memo tab rendered no content"
+    summary_tab = at.tabs[labels.index("Summary")]
+    assert summary_tab.metric, "Summary tab rendered no headline metrics"
 
 
 def test_app_shows_clear_error_without_snapshot(tmp_path, monkeypatch):
@@ -25,4 +30,6 @@ def test_app_shows_clear_error_without_snapshot(tmp_path, monkeypatch):
     at.run()
     at.sidebar.radio[0].set_value("Bundled snapshot only").run()
     assert not at.exception
-    assert at.error, "expected a friendly error when no data is available"
+    assert not at.error, "errors should be shown as a friendly card, not a raw error banner"
+    assert any("could not load data" in m.value for m in at.markdown), "friendly error card missing"
+    assert any(b.label == "Use sample data" for b in at.button), "sample-data recovery button missing"

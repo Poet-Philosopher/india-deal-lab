@@ -8,17 +8,16 @@ An end-to-end deal analysis tool for NSE-listed companies: **trading comps, DCF,
 
 | Tab | What you get |
 |---|---|
-| Overview | Price, market cap, net debt, EV/EBITDA, history, data-quality notes |
-| Comps | Peer EV/EBITDA, EV/Sales, P/E; IQR outlier flags you can override; implied value per share |
-| DCF | Driver-based 5-year FCFF, CAPM-based WACC, Gordon growth **and** exit-multiple terminal value, mid-year toggle, two sensitivity grids |
-| LBO | Sources and uses, senior and mezzanine tranches (cash and PIK), mandatory amortisation, cash sweep, IRR/MOIC, returns attribution, IRR grid, and "what must be true for the hurdle IRR" solvers |
+| Summary | Headline cards (price, DCF value, comps value, LBO IRR), valuation range chart, key takeaways, company snapshot and data-quality notes |
+| Valuation > Comps | Peer EV/EBITDA, EV/Sales, P/E with the subject company pinned; IQR outlier flags you can override with peer chips; implied value per share |
+| Valuation > DCF | Driver-based 5-year FCFF, CAPM-based WACC, Gordon growth **and** exit-multiple terminal value, mid-year toggle, two sensitivity grids coloured against the current price |
+| LBO | Sources and uses, senior and mezzanine tranches (cash and PIK), mandatory amortisation, cash sweep, IRR/MOIC, returns attribution, IRR grid highlighting cells that meet the hurdle, and "what must be true" solvers |
 | Football field | Every method on one chart against current price and offer price |
-| IC memo | Markdown memo whose numbers are all pulled from the model, with rule-based risks and a model-implied stance |
-| Excel | Assumptions, DCF and LBO sheets with live formulas |
+| IC memo & export | Markdown memo with numbers pulled from the model, plus the formula-live Excel workbook |
 
 ## Case studies
 
-Six preset NSE-listed, non-financial companies across paints, FMCG and electricals (banks and NBFCs are excluded because EV/EBITDA and free-cash-flow models do not suit lenders). Peer sets are defined in `deal_lab/universe.py`. A synthetic **Sample** mode lets the app run without any data connection; it is clearly labelled and never mixed with real data.
+Five preset NSE-listed, non-financial companies across paints, FMCG and electricals (banks and NBFCs are excluded because EV/EBITDA and free-cash-flow models do not suit lenders). Peer sets are defined in `deal_lab/universe.py`. A synthetic **Sample** mode lets the app run without any data connection; it is clearly labelled and never mixed with real data.
 
 ## Quick start
 

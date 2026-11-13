@@ -7,14 +7,9 @@ EV/EBITDA and free-cash-flow models do not fit lenders).
 from __future__ import annotations
 
 PRESETS = {
-    "Akzo Nobel India (Paints)": {
-        "ticker": "AKZOINDIA.NS",
-        "peers": ["ASIANPAINT.NS", "BERGEPAINT.NS", "KANSAINER.NS", "PIDILITIND.NS"],
-        "note": "Small, cash-generative, majority-held: a natural take-private style case study.",
-    },
     "Berger Paints India (Paints)": {
         "ticker": "BERGEPAINT.NS",
-        "peers": ["ASIANPAINT.NS", "KANSAINER.NS", "AKZOINDIA.NS", "PIDILITIND.NS"],
+        "peers": ["ASIANPAINT.NS", "KANSAINER.NS", "PIDILITIND.NS"],
         "note": "Mid-cap decorative paints leader; shows a larger-ticket LBO strain.",
     },
     "Dabur India (FMCG)": {
@@ -34,12 +29,12 @@ PRESETS = {
     },
     "Pidilite Industries (Adhesives)": {
         "ticker": "PIDILITIND.NS",
-        "peers": ["ASIANPAINT.NS", "BERGEPAINT.NS", "KANSAINER.NS", "AKZOINDIA.NS"],
+        "peers": ["ASIANPAINT.NS", "BERGEPAINT.NS", "KANSAINER.NS"],
         "note": "Premium-multiple specialty chemicals/adhesives franchise.",
     },
 }
 
-DEFAULT_PRESET = "Akzo Nobel India (Paints)"
+DEFAULT_PRESET = "Berger Paints India (Paints)"
 
 
 def all_tickers() -> list[str]:

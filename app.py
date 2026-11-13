@@ -24,21 +24,37 @@ st.set_page_config(page_title="India Deal Lab | Valuation and LBO analysis", lay
                    initial_sidebar_state="expanded")
 
 PALETTE = {"navy": "#1f3a5f", "steel": "#5b7a99", "grey": "#8a94a0", "line": "#d5dae1",
-           "pos": "#2e6b4f", "neg": "#9b3d3d"}
+           "pos": "#2a9d8f", "neg": "#c0504d", "warn": "#e9a23b", "teal_text": "#1f7a6f"}
 
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+.stApp, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp p, .stApp label,
+[data-testid="stMetric"], [data-testid="stSidebar"] { font-family: "Inter", "Segoe UI", Arial, sans-serif; }
 html, body, [class*="st-"] { font-feature-settings: "tnum" 1, "lnum" 1; }
 .block-container { padding-top: 2.2rem; max-width: 1280px; }
 h1 { font-weight: 600; letter-spacing: -0.01em; font-size: 1.9rem; }
-h2, h3 { font-weight: 600; letter-spacing: -0.005em; }
-[data-testid="stMetric"] { background: #f6f7f9; border: 1px solid #e1e5ea; border-radius: 4px;
-                           padding: 0.7rem 0.9rem; }
+h2, h3 { font-weight: 600; letter-spacing: -0.005em; color: #1f3a5f; }
+[data-testid="stMetric"] { background: #f6f7f9; border: 1px solid #dde2ea; border-radius: 6px;
+                           padding: 0.8rem 1rem; }
 [data-testid="stMetricLabel"] p { font-size: 0.8rem; color: #4a5563; }
-[data-testid="stMetricValue"] { font-size: 1.35rem; font-weight: 600; }
-.stTabs [data-baseweb="tab-list"] { gap: 0.25rem; border-bottom: 1px solid #d5dae1; }
-.stTabs [data-baseweb="tab"] { padding: 0.5rem 1rem; }
+[data-testid="stMetricValue"] { font-size: 1.45rem; font-weight: 600; color: #1f3a5f; }
+.stTabs [data-baseweb="tab-list"] { gap: 0.25rem; border-bottom: 1px solid #dde2ea; overflow-x: auto; }
+.stTabs [data-baseweb="tab"] { padding: 0.55rem 1rem; font-weight: 500; }
+.stTabs [aria-selected="true"] { color: #1f3a5f; }
+.chip { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 999px; font-size: 0.8rem;
+        font-weight: 500; border: 1px solid #dde2ea; background: #f3f5f8; color: #1b2430; }
+.chip.live { background: #e3f4f1; border-color: #9fd6cd; color: #145a51; }
+.chip.snap { background: #e8eef6; border-color: #b9c7da; color: #1f3a5f; }
+.chip.sample { background: #fdf1db; border-color: #f0cf8f; color: #6b4a07; }
+.subtitle { color: #4a5563; font-size: 0.95rem; margin-top: -0.4rem; }
+button:focus-visible, [role="tab"]:focus-visible, input:focus-visible, [role="radio"]:focus-visible {
+    outline: 2px solid #1f3a5f !important; outline-offset: 2px; }
 footer, #MainMenu { visibility: hidden; }
+@media (max-width: 640px) {
+  .block-container { padding: 1rem 0.75rem; }
+  h1 { font-size: 1.5rem; }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -48,6 +64,14 @@ def style_fig(fig, height=None):
                       "size": 13, "color": "#1b2430"}, margin={"l": 10, "r": 10, "t": 50, "b": 10},
                       **({"height": height} if height else {}))
     return fig
+
+
+def status_chip(source: str, as_of: str | None) -> str:
+    if source == "sample":
+        return '<span class="chip sample">Sample data (synthetic)</span>'
+    if source == "snapshot":
+        return f'<span class="chip snap">Snapshot &middot; {as_of or "undated"}</span>'
+    return '<span class="chip live">Live &middot; Yahoo Finance</span>'
 
 MODES = {
     "Auto (live, then bundled snapshot)": "auto",
@@ -71,9 +95,22 @@ def load(ticker: str, mode: str) -> CompanyData:
 
 
 # ------------------------------------------------------------------ sidebar
+SAMPLE_LABEL = "Sample (synthetic demo data)"
+
+
+def _use_sample():
+    st.session_state["data_mode"] = SAMPLE_LABEL
+
+
+def _reset_overrides():
+    for k in [k for k in st.session_state if str(k).startswith("ov_")]:
+        del st.session_state[k]
+
+
 st.sidebar.title("India Deal Lab")
 st.sidebar.caption(f"Version {__version__}. Valuation, LBO and investment memo.")
-mode_label = st.sidebar.radio("Data source", list(MODES), index=0)
+st.session_state.setdefault("data_mode", list(MODES)[0])
+mode_label = st.sidebar.radio("Data source", list(MODES), key="data_mode")
 mode = MODES[mode_label]
 
 if mode == "sample":
@@ -82,53 +119,78 @@ if mode == "sample":
     peers_default = cfg["peers"]
     note = "Synthetic companies for demonstration only."
 else:
-    preset_name = st.sidebar.selectbox("Case study", list(PRESETS), index=list(PRESETS).index(DEFAULT_PRESET))
+    names = list(PRESETS)
+    try:
+        qp = st.query_params.get("case")
+    except Exception:
+        qp = None
+    start_name = qp if qp in names else DEFAULT_PRESET
+    preset_name = st.sidebar.selectbox("Case study", names, index=names.index(start_name))
+    try:
+        st.query_params["case"] = preset_name
+    except Exception:
+        pass
     cfg = PRESETS[preset_name]
     peers_default = cfg["peers"]
     note = cfg["note"]
 st.sidebar.caption(note)
 
-hurdle = st.sidebar.slider("Sponsor hurdle IRR", 0.10, 0.35, 0.20, 0.01, format="%.2f")
+hurdle_pct = st.sidebar.slider("Sponsor hurdle IRR", 10, 35, 20, 1, format="%d%%",
+                               help="Minimum annual return a buyout sponsor needs to approve the deal.")
+hurdle = hurdle_pct / 100
 
-st.title("India Deal Lab")
-st.caption("Trading comparables, DCF, leveraged buyout, football field and investment committee memo "
-           "for NSE-listed companies. For educational use only; not investment advice.")
+head_l, head_r = st.columns([3, 1])
+head_l.title("India Deal Lab")
+chip_slot = head_r.empty()
+st.markdown('<p class="subtitle">Trading comparables, DCF, leveraged buyout, football field and investment '
+            'committee memo for NSE-listed companies. For educational use only; not investment advice.</p>',
+            unsafe_allow_html=True)
 
 try:
     with st.spinner("Loading company data..."):
         target = load(cfg["ticker"], mode)
 except Exception as exc:
-    st.error(str(exc))
-    st.info("Select **Sample (synthetic demo data)** in the sidebar, or generate bundled snapshots by running "
-            "`python scripts/refresh_snapshots.py` (or the Refresh data snapshots workflow on GitHub).")
+    with st.container(border=True):
+        st.markdown("#### We could not load data for this company")
+        st.write("Live market data was unavailable and no saved snapshot exists for it. "
+                 "You can explore the app with synthetic sample data, or pick another company in the sidebar.")
+        st.button("Use sample data", type="primary", on_click=_use_sample)
+        with st.expander("Technical details"):
+            st.code(str(exc))
+            st.caption("To create snapshots, run `python scripts/refresh_snapshots.py` or the "
+                       "Refresh data snapshots workflow on GitHub.")
     st.stop()
 
+chip_slot.markdown(f'<div style="text-align:right;padding-top:1.6rem">{status_chip(target.source, target.as_of)}</div>',
+                   unsafe_allow_html=True)
 if target.source == "sample":
     st.warning("Synthetic sample data. The companies and figures are illustrative and not real.")
-elif target.source == "snapshot":
-    st.info(f"Showing bundled snapshot dated {target.as_of} (live Yahoo Finance data was unavailable).")
 
 peer_objs: list[CompanyData] = []
 failed: list[str] = []
 with st.spinner("Loading peers..."):
-    for t in peers_default:
+    for tk in peers_default:
         try:
-            p = load(t, mode)
-            (peer_objs if p.is_complete() else failed).append(p if p.is_complete() else t)
+            p = load(tk, mode)
+            if p.is_complete():
+                peer_objs.append(p)
+            else:
+                failed.append(tk)
         except Exception:
-            failed.append(t)
-if failed:
-    st.warning("Peers skipped (incomplete or unavailable data): " + ", ".join(failed))
+            failed.append(tk)
 
 # ---- manual overrides ---------------------------------------------------
-with st.sidebar.expander("Override company inputs"):
-    price = st.number_input("Share price (Rs)", value=float(target.price), min_value=0.01)
+with st.sidebar.expander("Advanced assumptions"):
+    st.caption("Override the fetched company figures.")
+    price = st.number_input("Share price (Rs)", value=float(target.price), min_value=0.01, key="ov_price")
     shares = st.number_input("Shares (crore)", value=float(target.shares_cr), min_value=0.0001,
-                             format="%.4f")
-    rev0 = st.number_input("LTM revenue (Rs cr)", value=float(target.ltm_revenue), min_value=1.0)
-    ebitda0 = st.number_input("LTM EBITDA (Rs cr)", value=float(target.ltm_ebitda), min_value=1.0)
-    debt = st.number_input("Total debt (Rs cr)", value=float(target.total_debt), min_value=0.0)
-    cash = st.number_input("Cash (Rs cr)", value=float(target.cash), min_value=0.0)
+                             format="%.4f", key="ov_shares")
+    rev0 = st.number_input("LTM revenue (Rs cr)", value=float(target.ltm_revenue), min_value=1.0, key="ov_rev")
+    ebitda0 = st.number_input("LTM EBITDA (Rs cr)", value=float(target.ltm_ebitda), min_value=1.0,
+                              key="ov_ebitda")
+    debt = st.number_input("Total debt (Rs cr)", value=float(target.total_debt), min_value=0.0, key="ov_debt")
+    cash = st.number_input("Cash (Rs cr)", value=float(target.cash), min_value=0.0, key="ov_cash")
+    st.button("Reset overrides", on_click=_reset_overrides)
 
 t = replace(target, price=price, shares_cr=shares, market_cap=price * shares,
             total_debt=debt, cash=cash,
@@ -137,67 +199,70 @@ t = replace(target, price=price, shares_cr=shares, market_cap=price * shares,
 # ---- comps (computed once, reused by every tab) ------------------------------
 comp_df = comps_table(peer_objs) if peer_objs else pd.DataFrame()
 exclude: list[str] = []
-tabs = st.tabs(["Overview", "Comps", "DCF", "LBO", "Football field", "IC memo", "Excel"])
-
-# ===================================================================== overview
-with tabs[0]:
-    st.subheader(f"{t.name} ({t.ticker})")
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Price", f"Rs {t.price:,.1f}")
-    c2.metric("Market cap", fmt_cr(t.market_cap))
-    c3.metric("Net debt", fmt_cr(t.net_debt))
-    c4.metric("EV / LTM EBITDA", f"{t.enterprise_value / t.ltm_ebitda:.1f}x")
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("LTM revenue", fmt_cr(t.ltm_revenue))
-    c2.metric("LTM EBITDA", fmt_cr(t.ltm_ebitda))
-    c3.metric("EBITDA margin", f"{t.ltm_ebitda / t.ltm_revenue:.1%}")
-    c4.metric("Data as of", t.as_of or "n/a")
-    if t.summary:
-        st.write(t.summary)
-    if t.revenue and len(t.ebitda) >= len(t.revenue):
-        n_h = len(t.revenue)
-        yrs_h = t.years[-n_h:] if len(t.years) >= n_h else [f"Year {i + 1}" for i in range(n_h)]
-        hf = go.Figure([go.Bar(name="Revenue", x=yrs_h, y=t.revenue, marker_color=PALETTE["navy"]),
-                        go.Bar(name="EBITDA", x=yrs_h, y=t.ebitda[-n_h:], marker_color=PALETTE["steel"])])
-        hf.update_layout(barmode="group", title="Revenue and EBITDA history (Rs crore)",
-                         xaxis={"type": "category"}, legend={"orientation": "h", "y": -0.15})
-        st.plotly_chart(style_fig(hf, 340), width="stretch")
-    if t.warnings:
-        with st.expander(f"Data quality notes ({len(t.warnings)})"):
-            for w in t.warnings:
-                st.write("- " + w)
+tabs = st.tabs(["Summary", "Valuation", "LBO", "Football field", "IC memo & export"])
 
 # ======================================================================= comps
-with tabs[1]:
+vt = tabs[1].tabs(["Comps", "DCF"])
+stats = None
+implied: dict = {}
+with vt[0]:
     st.subheader("Trading comparables")
+    if failed:
+        st.caption("Peers skipped (incomplete or unavailable data): " + ", ".join(failed))
     if comp_df.empty or len(comp_df) < 2:
-        st.warning("Not enough complete peers to build comps.")
-        stats = None
-        implied = {}
+        st.warning("Not enough complete peers to build comps for this company. Try another case study or data source.")
     else:
         flags = flag_outliers(comp_df["EV/EBITDA"])
         out_tickers = list(comp_df.loc[flags, "Ticker"])
-        exclude = st.multiselect("Exclude peers from statistics", list(comp_df["Ticker"]),
-                                 default=out_tickers,
-                                 help="Peers outside 1.5 x IQR on EV/EBITDA are pre-selected.")
+        all_peers = list(comp_df["Ticker"])
+        chosen = st.pills("Peers included in statistics", all_peers, selection_mode="multi",
+                          default=[p for p in all_peers if p not in out_tickers],
+                          help="Peers outside 1.5 x IQR on EV/EBITDA start deselected. Click a peer to include or exclude it.")
+        if not chosen:
+            st.info("No peers selected, so all peers are used.")
+            chosen = all_peers
+        exclude = [p for p in all_peers if p not in chosen]
+
+        subject = comps_table([t])
         show = comp_df.copy()
-        show["Outlier"] = flags.map({True: "yes", False: ""})
-        st.dataframe(show.style.format({
+        show["Outlier"] = flags.map({True: "Outlier", False: ""})
+        subject["Outlier"] = "Subject"
+        show = pd.concat([subject, show], ignore_index=True)
+        subj_ticker = t.ticker
+
+        def _pin(row):
+            return (["background-color:#e8eef6;font-weight:600"] * len(row)
+                    if row["Ticker"] == subj_ticker else [""] * len(row))
+
+        st.dataframe(show.style.apply(_pin, axis=1).format({
             "Mkt cap (Rs cr)": "{:,.0f}", "EV (Rs cr)": "{:,.0f}", "EBITDA margin %": "{:.1f}",
-            "EV/EBITDA": "{:.1f}x", "EV/Sales": "{:.2f}x", "P/E": "{:.1f}x"}), hide_index=True,
-            width="stretch")
+            "EV/EBITDA": "{:.1f}x", "EV/Sales": "{:.2f}x", "P/E": "{:.1f}x"}, na_rep="n/a"),
+            hide_index=True, width="stretch")
+
         stats = summary_stats(comp_df, exclude)
-        st.dataframe(stats.style.format("{:.1f}"), width="stretch")
+        left_c, right_c = st.columns([3, 2])
+        with left_c:
+            st.markdown("**Summary statistics**")
+            st.dataframe(stats.style.format("{:.1f}", na_rep="n/a"), width="stretch")
+        with right_c:
+            colors = [PALETTE["navy"] if p in chosen else PALETTE["line"] for p in comp_df["Ticker"]]
+            bf = go.Figure(go.Bar(x=comp_df["Ticker"], y=comp_df["EV/EBITDA"], marker_color=colors,
+                                  text=[f"{v:.1f}x" for v in comp_df["EV/EBITDA"]], textposition="outside"))
+            bf.add_hline(y=t.enterprise_value / t.ltm_ebitda, line_dash="dash", line_color=PALETTE["pos"],
+                         annotation_text=f"{t.ticker} {t.enterprise_value / t.ltm_ebitda:.1f}x")
+            bf.update_layout(title="EV/EBITDA by peer (grey = excluded)", showlegend=False,
+                             yaxis_title="EV/EBITDA (x)")
+            st.plotly_chart(style_fig(bf, 320), width="stretch", key="comps_bar")
         implied = implied_valuation(t, stats)
         if implied:
             rows = [{"Multiple": k, "Q1": v["Q1"], "Median": v["Median"], "Q3": v["Q3"]}
                     for k, v in implied.items()]
             st.markdown("**Implied value per share (Rs)**")
             st.dataframe(pd.DataFrame(rows).style.format({"Q1": "{:,.0f}", "Median": "{:,.0f}",
-                                                          "Q3": "{:,.0f}"}), hide_index=True)
+                                                          "Q3": "{:,.0f}"}, na_rep="n/a"), hide_index=True)
 
 # ========================================================================= dcf
-with tabs[2]:
+with vt[1]:
     st.subheader("Discounted cash flow")
     base = default_inputs(t)
     left, right = st.columns(2)
@@ -264,13 +329,17 @@ with tabs[2]:
     s1, s2 = st.columns(2)
     s1.markdown("**Value per share: WACC vs terminal growth**")
     s1.dataframe(sensitivity_wacc_g(dcf_in, waccs, [tg - 0.01, tg - 0.005, tg, tg + 0.005, tg + 0.01])
-                 .style.format("{:,.0f}"))
+                 .style.format("{:,.0f}", na_rep="n/a")
+                 .background_gradient(cmap="RdYlGn", vmin=t.price * 0.5, vmax=t.price * 1.5, axis=None))
     s2.markdown("**Value per share: WACC vs exit multiple**")
     s2.dataframe(sensitivity_wacc_exit(dcf_in, waccs, [exit_mult + d for d in (-4, -2, 0, 2, 4)])
-                 .style.format("{:,.0f}"))
+                 .style.format("{:,.0f}", na_rep="n/a")
+                 .background_gradient(cmap="RdYlGn", vmin=t.price * 0.5, vmax=t.price * 1.5, axis=None))
+    st.caption(f"Green cells are above the current price (Rs {t.price:,.0f}); red cells are below it. "
+               "The numbers are shown in every cell, so colour is only a visual aid.")
 
 # ========================================================================= lbo
-with tabs[3]:
+with tabs[2]:
     st.subheader("Leveraged buyout")
     l1, l2 = st.columns(2)
     with l1:
@@ -305,8 +374,9 @@ with tabs[3]:
         st.error("Debt exceeds total uses; reduce leverage.")
     irr_txt = f"{lbo['irr']:.1%}" if lbo["irr"] == lbo["irr"] else "n/a"
     m1_, m2_, m3_, m4_ = st.columns(4)
-    m1_.metric("IRR", irr_txt, "meets hurdle" if lbo["irr"] == lbo["irr"] and lbo["irr"] >= hurdle else "below hurdle")
-    m2_.metric("MOIC", f"{lbo['moic']:.2f}x")
+    m1_.metric("IRR", irr_txt, (f"{lbo['irr'] - hurdle:+.1%} vs {hurdle:.0%} hurdle" if lbo["irr"] == lbo["irr"] else None),
+                help="Annualised return to the sponsor's equity over the hold period.")
+    m2_.metric("MOIC", f"{lbo['moic']:.2f}x", help="Multiple of invested capital: exit equity divided by sponsor equity.")
     m3_.metric("Leverage in / out", f"{lbo['leverage_entry']:.1f}x / {lbo['leverage_exit']:.1f}x")
     m4_.metric("Year-1 interest cover", f"{lbo['interest_cover_y1']:.1f}x")
     if lbo["cash_shortfall"]:
@@ -340,13 +410,18 @@ with tabs[3]:
         totals={"marker": {"color": PALETTE["navy"]}}))
     fig.update_layout(title="Returns attribution (Rs crore)", showlegend=False)
     style_fig(fig, 380)
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, width="stretch", key="lbo_waterfall")
+    with st.expander("View returns attribution as a table"):
+        st.dataframe(pd.DataFrame({"Rs cr": {**attr, "Equity gain": lbo["equity_gain"]}})
+                     .style.format("{:,.0f}"))
 
     st.markdown("**IRR sensitivity: entry multiple vs exit multiple**")
     ems = [entry_mult + d for d in (-2, -1, 0, 1, 2)]
     xms = [exit_m + d for d in (-2, -1, 0, 1, 2)]
     grid = irr_grid(lbo_in, ems, xms)
-    st.dataframe(grid.style.format("{:.1%}").background_gradient(cmap="Blues", axis=None))
+    st.dataframe(grid.style.format("{:.1%}", na_rep="n/a").map(
+        lambda v: "background-color:#d8efe9;font-weight:600" if v == v and v >= hurdle else ""))
+    st.caption(f"Highlighted cells meet the {hurdle:.0%} hurdle.")
 
     st.markdown(f"**What must be true for a {hurdle:.0%} IRR**")
     max_entry = solve_entry_multiple(lbo_in, hurdle)
@@ -364,45 +439,113 @@ with tabs[3]:
         w2.metric("Min exit multiple", "none", "target unreachable")
 
 # ===================================================================== football
-with tabs[4]:
+with tabs[3]:
     st.subheader("Football field (Rs per share)")
     football = build_football(t, implied, dcf_in, lbo_in, irr_low=hurdle, irr_high=hurdle + 0.05)
     ff = go.Figure()
     for r in football:
         ff.add_trace(go.Bar(y=[r["method"]], x=[r["high"] - r["low"]], base=[r["low"]],
                             orientation="h", showlegend=False, marker_color=PALETTE["navy"],
-                            text=f"{r['low']:,.0f} to {r['high']:,.0f}", textposition="inside",
+                            text=f"{r['low']:,.0f} to {r['high']:,.0f}", textposition="outside", textangle=0,
+                            cliponaxis=False,
                             hovertemplate=f"{r['method']}<br>Rs %{{base:,.0f}} to Rs {r['high']:,.0f}<extra></extra>"))
-    ff.add_vline(x=t.price, line_dash="dash", line_color=PALETTE["neg"],
-                 annotation_text=f"Price Rs {t.price:,.0f}", annotation_position="top")
-    ff.add_vline(x=entry_price, line_dash="dot", line_color=PALETTE["pos"],
-                 annotation_text=f"Offer Rs {entry_price:,.0f}", annotation_position="bottom")
+    for xv, dash, col, lab, shift in ((t.price, "solid", PALETTE["pos"], f"Price Rs {t.price:,.0f}", 0),
+                                      (entry_price, "dash", PALETTE["warn"], f"Offer Rs {entry_price:,.0f}", 18)):
+        ff.add_shape(type="line", x0=xv, x1=xv, y0=0, y1=1, xref="x", yref="paper",
+                     line={"color": col, "width": 2.5, "dash": dash}, layer="above")
+        ff.add_annotation(x=xv, y=1, xref="x", yref="paper", text=lab, showarrow=False, yshift=14 + shift,
+                          font={"color": "#1b2430", "size": 12})
     ff.update_layout(xaxis_title="Rs per share", yaxis={"autorange": "reversed"})
     style_fig(ff, 120 + 70 * len(football))
-    st.plotly_chart(ff, width="stretch")
+    ff.update_layout(margin={"l": 10, "r": 90, "t": 80, "b": 10})
+    st.plotly_chart(ff, width="stretch", key="football_main")
     st.dataframe(pd.DataFrame(football).rename(columns={"method": "Method", "low": "Low", "high": "High",
                                                         "mid": "Mid"})
                  .style.format({"Low": "{:,.0f}", "High": "{:,.0f}", "Mid": "{:,.0f}"}), hide_index=True)
 
-# ======================================================================== memo
-with tabs[5]:
+# =================================================================== memo + export
+with tabs[4]:
     st.subheader("Investment committee memo")
     stats_for_memo = stats if comp_df is not None and not comp_df.empty and len(comp_df) >= 2 else None
     memo_md = build_memo(t, peer_objs, stats_for_memo, implied, dcf_in, dcf, lbo_in, lbo, football,
                          premium, hurdle, max_entry)
-    st.markdown(memo_md)
-    st.download_button("Download memo (.md)", memo_md, file_name=f"IC_memo_{t.ticker}.md",
-                       mime="text/markdown")
-
-# ======================================================================= excel
-with tabs[6]:
-    st.subheader("Excel export")
-    st.write("A formula-live workbook (Assumptions, DCF, LBO). Change a blue input and the model "
-             "recalculates in Excel. It mirrors the Python model; the Excel LBO uses a fixed "
-             "5-year horizon with the exit year taken from the hold period.")
     blob = build_workbook(t, dcf_in, lbo_in, t.price)
-    st.download_button("Download model (.xlsx)", blob, file_name=f"DealLab_{t.ticker}.xlsx",
-                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    d1, d2, _sp = st.columns([1, 1, 2])
+    d1.download_button("Download memo (.md)", memo_md, file_name=f"IC_memo_{t.ticker}.md",
+                       mime="text/markdown", width="stretch")
+    d2.download_button("Download model (.xlsx)", blob, file_name=f"DealLab_{t.ticker}.xlsx",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                       width="stretch")
+    with st.container(border=True):
+        st.markdown(memo_md)
+    with st.expander("What is in the Excel model?"):
+        st.write("A formula-live workbook with Assumptions, DCF and LBO sheets. Change a blue input and the "
+                 "model recalculates in Excel. It mirrors the Python model; the Excel LBO uses a fixed "
+                 "5-year horizon with the exit year taken from the hold period.")
+
+# ===================================================================== summary
+# Rendered last (so every model result exists) but displayed in the first tab.
+with tabs[0]:
+    st.subheader(f"{t.name} ({t.ticker})")
+    comps_med = implied.get("EV/EBITDA", {}).get("Median") if implied else None
+    irr_ok = lbo["irr"] == lbo["irr"] and lbo["irr"] >= hurdle
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Market price", f"Rs {t.price:,.1f}", help="Current share price (editable under Advanced assumptions).")
+    k2.metric("DCF value / share", f"Rs {dcf['price_blended']:,.0f}",
+              f"{dcf['price_blended'] / t.price - 1:+.0%} vs price", help="Average of Gordon-growth and exit-multiple DCF values.")
+    if comps_med and comps_med == comps_med:
+        k3.metric("Comps value / share", f"Rs {comps_med:,.0f}", f"{comps_med / t.price - 1:+.0%} vs price",
+                  help="Median peer EV/EBITDA applied to the company's LTM EBITDA.")
+    else:
+        k3.metric("Comps value / share", "n/a", "not enough peers", delta_color="off")
+    k4.metric("LBO IRR", f"{lbo['irr']:.1%}" if lbo["irr"] == lbo["irr"] else "n/a",
+              (f"{lbo['irr'] - hurdle:+.1%} vs {hurdle:.0%} hurdle" if lbo["irr"] == lbo["irr"] else None),
+              help="Sponsor return at the control premium and leverage chosen on the LBO tab.")
+
+    col_chart, col_take = st.columns([3, 2])
+    with col_chart:
+        ff_sum = go.Figure(ff)
+        ff_sum.update_layout(height=120 + 55 * len(football), title="Valuation range (Rs per share)")
+        st.plotly_chart(ff_sum, width="stretch", key="football_summary")
+    with col_take:
+        with st.container(border=True):
+            st.markdown("**Key takeaways**")
+            bullets = [f"DCF points to **Rs {dcf['price_blended']:,.0f}** per share, "
+                       f"{dcf['price_blended'] / t.price - 1:+.0%} versus the market price."]
+            if comps_med and comps_med == comps_med:
+                bullets.append(f"Peer-median EV/EBITDA implies **Rs {comps_med:,.0f}** ({comps_med / t.price - 1:+.0%}).")
+            bullets.append(f"A buyout at a {premium:.0%} premium returns **{irr_txt}** IRR, "
+                           f"{'clearing' if irr_ok else 'missing'} the {hurdle:.0%} hurdle.")
+            if max_entry:
+                bullets.append(f"The highest entry multiple that still clears the hurdle is **{max_entry:.1f}x** "
+                               f"(currently {entry_mult:.1f}x).")
+            st.markdown("\n".join(f"- {b}" for b in bullets))
+
+    st.markdown("#### Company snapshot")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Market cap", fmt_cr(t.market_cap))
+    c2.metric("Net debt", fmt_cr(t.net_debt), help="Total debt minus cash.")
+    c3.metric("EV / LTM EBITDA", f"{t.enterprise_value / t.ltm_ebitda:.1f}x",
+              help="Enterprise value divided by trailing-twelve-month EBITDA.")
+    c4.metric("EBITDA margin", f"{t.ltm_ebitda / t.ltm_revenue:.1%}")
+    if t.summary:
+        st.write(t.summary)
+    if t.revenue and len(t.ebitda) >= len(t.revenue):
+        n_h = len(t.revenue)
+        yrs_h = t.years[-n_h:] if len(t.years) >= n_h else [f"Year {i + 1}" for i in range(n_h)]
+        hf = go.Figure([go.Bar(name="Revenue", x=yrs_h, y=t.revenue, marker_color=PALETTE["navy"]),
+                        go.Bar(name="EBITDA", x=yrs_h, y=t.ebitda[-n_h:], marker_color=PALETTE["steel"])])
+        hf.update_layout(barmode="group", title="Revenue and EBITDA history (Rs crore)",
+                         xaxis={"type": "category"}, legend={"orientation": "h", "y": -0.15})
+        st.plotly_chart(style_fig(hf, 320), width="stretch", key="history")
+        with st.expander("View history as a table"):
+            st.dataframe(pd.DataFrame({"Revenue": t.revenue, "EBITDA": t.ebitda[-n_h:]}, index=yrs_h)
+                         .style.format("{:,.0f}"))
+    notes = list(t.warnings) + ([f"Peers skipped (incomplete or unavailable data): {', '.join(failed)}"] if failed else [])
+    if notes:
+        with st.expander(f"Data quality notes ({len(notes)})"):
+            for w in notes:
+                st.write("- " + w)
 
 
 st.divider()
