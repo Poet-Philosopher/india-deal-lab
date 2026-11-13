@@ -182,14 +182,14 @@ with st.spinner("Loading peers..."):
 # ---- manual overrides ---------------------------------------------------
 with st.sidebar.expander("Advanced assumptions"):
     st.caption("Override the fetched company figures.")
-    price = st.number_input("Share price (Rs)", value=float(target.price), min_value=0.01, key="ov_price")
+    price = st.number_input("Share price (Rs)", value=float(target.price), min_value=0.01, key=f"ov_price_{target.ticker}")
     shares = st.number_input("Shares (crore)", value=float(target.shares_cr), min_value=0.0001,
-                             format="%.4f", key="ov_shares")
-    rev0 = st.number_input("LTM revenue (Rs cr)", value=float(target.ltm_revenue), min_value=1.0, key="ov_rev")
+                             format="%.4f", key=f"ov_shares_{target.ticker}")
+    rev0 = st.number_input("LTM revenue (Rs cr)", value=float(target.ltm_revenue), min_value=1.0, key=f"ov_rev_{target.ticker}")
     ebitda0 = st.number_input("LTM EBITDA (Rs cr)", value=float(target.ltm_ebitda), min_value=1.0,
-                              key="ov_ebitda")
-    debt = st.number_input("Total debt (Rs cr)", value=float(target.total_debt), min_value=0.0, key="ov_debt")
-    cash = st.number_input("Cash (Rs cr)", value=float(target.cash), min_value=0.0, key="ov_cash")
+                              key=f"ov_ebitda_{target.ticker}")
+    debt = st.number_input("Total debt (Rs cr)", value=float(target.total_debt), min_value=0.0, key=f"ov_debt_{target.ticker}")
+    cash = st.number_input("Cash (Rs cr)", value=float(target.cash), min_value=0.0, key=f"ov_cash_{target.ticker}")
     st.button("Reset overrides", on_click=_reset_overrides)
 
 t = replace(target, price=price, shares_cr=shares, market_cap=price * shares,

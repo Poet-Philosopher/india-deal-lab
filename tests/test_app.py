@@ -33,3 +33,18 @@ def test_app_shows_clear_error_without_snapshot(tmp_path, monkeypatch):
     assert not at.error, "errors should be shown as a friendly card, not a raw error banner"
     assert any("could not load data" in m.value for m in at.markdown), "friendly error card missing"
     assert any(b.label == "Use sample data" for b in at.button), "sample-data recovery button missing"
+
+
+def test_override_inputs_follow_selected_company(tmp_path, monkeypatch):
+    """Switching case study must not carry the previous company's price/share overrides."""
+    import json
+    from deal_lab import data
+    from deal_lab.data import sample_universe
+    monkeypatch.setattr(data, "SNAPSHOT_DIR", tmp_path)
+    for tk, cd in sample_universe().items():
+        (tmp_path / f"{tk}.json").write_text(json.dumps(cd.to_dict()))
+    at = st_testing.AppTest.from_file(APP, default_timeout=60)
+    at.run()
+    at.sidebar.radio[0].set_value("Sample (synthetic demo data)").run()
+    keys = [n.key for n in at.sidebar.number_input]
+    assert any(k.startswith("ov_price_") and k.endswith("SAMPLE-A") for k in keys), keys
