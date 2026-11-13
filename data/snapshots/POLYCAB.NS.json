@@ -1,0 +1,63 @@
+{
+  "ticker": "POLYCAB.NS",
+  "name": "Polycab India Limited",
+  "sector": "Industrials",
+  "industry": "Electrical Equipment & Parts",
+  "summary": "Polycab India Limited manufactures and sells wires and cables under the POLYCAB brand in India and internationally. The company operates through three segments: Wires and Cables; Fast Moving Electrical Goods (FMEG); and Engineering, Procurement and Construction (EPC). The Wires and Cables segment provides wires, such as PolycabSuprema house wires, PolycabMaxima+ Green wire, PolycabPrimma house wires, ETIRA house wires, PolycabOptima+, GREENWIRE 180m, and POLYCAB LF FR 180m; and cables, such as control, rubber, defense, special, fire protection, marine offshore/onshore, domestic appliance and lighting, aerial bunched, industrial, high temperature, LV power, MV power, EHV power, communication and data, and instrumentation. The Fast Moving Electrical Goods segment offers ceiling, table, pedestal, wall, exhaust, farrata, and air circulated fans; LED lighting and luminaires, such as LED Bulb,",
+  "currency": "INR",
+  "price": 7904.0,
+  "shares_cr": 15.0696473,
+  "market_cap": 119110.500352,
+  "total_debt": 4501.136,
+  "cash": 4062.296,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    13941.89,
+    17760.414,
+    22031.419,
+    28269.508
+  ],
+  "ebitda": [
+    1960.575,
+    2695.788,
+    3138.917,
+    4194.263
+  ],
+  "ebit": [
+    1751.411,
+    2450.748,
+    2840.814,
+    3808.394
+  ],
+  "net_income": [
+    1270.783,
+    1784.045,
+    2019.99,
+    2672.033
+  ],
+  "da": [
+    209.164,
+    245.04,
+    298.103,
+    385.869
+  ],
+  "capex": [
+    479.453,
+    858.519,
+    969.734,
+    1480.514
+  ],
+  "nwc": 7519.287999999999,
+  "tax_rate": 0.25038173854680573,
+  "beta": 0.703,
+  "week52_low": 6663.0,
+  "week52_high": 10126.0,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

@@ -1,0 +1,63 @@
+{
+  "ticker": "ASIANPAINT.NS",
+  "name": "Asian Paints Limited",
+  "sector": "Basic Materials",
+  "industry": "Specialty Chemicals",
+  "summary": "Asian Paints Limited, together with its subsidiaries, engages in the manufacture, distribution, and sale of paints, coatings, and products related to home decoration and bath fittings, kitchen, and wardrobe in India, Asia, the Middle East, Africa, and the South Pacific region. The company offers wall coverings, waterproofing products, adhesives; and bath fittings and sanitaryware, modular kitchens and wardrobes, fabric, furnishings, rugs, decorative lightings, unplasticized polyvinyl chloride windows and door systems, furniture, textures and painting aids, and mechanized tools. It also provides color consultancy, projects, home painting services, waterproofing and wood solutions, and assure services; and interior and exterior wall finishes, enamels, tools, undercoats, thinners, and varnishers. The company offers its products under the Asian Paints, SCIB Paints, Apco Coatings, Asian Paint",
+  "currency": "INR",
+  "price": 2550.0,
+  "shares_cr": 95.8464572,
+  "market_cap": 244408.4641792,
+  "total_debt": 3928.93,
+  "cash": 8601.64,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    34388.71,
+    35395.42,
+    33815.17,
+    35540.9
+  ],
+  "ebitda": [
+    6691.3,
+    8405.94,
+    6356.43,
+    7427.7
+  ],
+  "ebit": [
+    5833.28,
+    7552.94,
+    5330.09,
+    6198.85
+  ],
+  "net_income": [
+    4106.45,
+    5460.23,
+    3667.23,
+    4325.35
+  ],
+  "da": [
+    858.02,
+    853.0,
+    1026.34,
+    1228.85
+  ],
+  "capex": [
+    1445.61,
+    2496.08,
+    1830.07,
+    1487.32
+  ],
+  "nwc": 6287.040000000001,
+  "tax_rate": 0.2679713630851645,
+  "beta": 0.311,
+  "week52_low": 2115.0,
+  "week52_high": 2985.7,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

@@ -1,0 +1,63 @@
+{
+  "ticker": "KANSAINER.NS",
+  "name": "Kansai Nerolac Paints Limited",
+  "sector": "Basic Materials",
+  "industry": "Specialty Chemicals",
+  "summary": "Kansai Nerolac Paints Limited engages in the manufacture and supply paints, varnishes, enamels, and lacquers in India. It provides interior and exterior wall paints, wood coatings, metal enamel paints, and ancillary paints, as well as adhesives and waterproofing products; interior textures; general industrial, powder, coil, automotive, auto refinish, and floor coatings; wood finishes, waterproofing solutions, and construction chemicals; and decorative and soldier paints. The company also offers painters, background check, guidance, color consultation, on-site sanitation, quotation, and color selection tools services. It serves residential, commercial, retail, industrial, governmental, and institutional customers, as well as automotive, consumer durables, machinery, equipment, and structural industries. The company was formerly known as Goodlass Nerolac Paints Limited and changed its name",
+  "currency": "INR",
+  "price": 201.1,
+  "shares_cr": 80.8877551,
+  "market_cap": 16266.5283584,
+  "total_debt": 302.73,
+  "cash": 2584.8,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    7505.22,
+    7768.46,
+    7787.04,
+    8022.65
+  ],
+  "ebitda": [
+    843.97,
+    1780.88,
+    1710.98,
+    1057.39
+  ],
+  "ebit": [
+    663.89,
+    1590.42,
+    1509.28,
+    829.27
+  ],
+  "net_income": [
+    473.58,
+    1185.44,
+    1142.95,
+    589.47
+  ],
+  "da": [
+    180.08,
+    190.46,
+    201.7,
+    228.12
+  ],
+  "capex": [
+    123.17,
+    237.0,
+    326.3,
+    213.12
+  ],
+  "nwc": 1783.5999999999997,
+  "tax_rate": 0.2774724585309543,
+  "beta": 0.401,
+  "week52_low": 157.91,
+  "week52_high": 264.0,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

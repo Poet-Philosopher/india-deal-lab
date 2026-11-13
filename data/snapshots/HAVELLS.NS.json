@@ -1,0 +1,63 @@
+{
+  "ticker": "HAVELLS.NS",
+  "name": "Havells India Limited",
+  "sector": "Industrials",
+  "industry": "Electrical Equipment & Parts",
+  "summary": "Havells India Limited, a fast-moving electrical and electronic durables company, manufactures, trades in, and sells various consumer electrical and electronic products in India and internationally. The company operates through six segments: Switchgears, Cables, Lighting and Fixtures, Electrical Consumer Durables, Lloyd Consumer, and Others. It offers switches; switchgears, such as circuit breakers, energy savers, human safety equipment, distribution boards, surge protection devices, and control and monitoring devices, as well as magnetic contractor, thermal overload relays, switchgear, circuit breakers, and starters; lighting products; and home appliances, including air conditioners, LED televisions, washing machines, refrigerators, air coolers and purifiers, appliances, personal grooming products, water heaters and purifiers, and geysers. The company also provides flexible, power, contr",
+  "currency": "INR",
+  "price": 1161.0,
+  "shares_cr": 62.7561652,
+  "market_cap": 72859.910144,
+  "total_debt": 265.2,
+  "cash": 2339.82,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    16805.72,
+    18473.31,
+    21600.08,
+    22288.12
+  ],
+  "ebitda": [
+    1776.67,
+    2091.42,
+    2433.95,
+    2678.62
+  ],
+  "ebit": [
+    1480.5,
+    1752.92,
+    2033.55,
+    2246.7
+  ],
+  "net_income": [
+    1071.73,
+    1270.76,
+    1472.26,
+    1690.56
+  ],
+  "da": [
+    296.17,
+    338.5,
+    400.4,
+    431.92
+  ],
+  "capex": [
+    587.79,
+    786.07,
+    765.95,
+    1484.45
+  ],
+  "nwc": 2280.2100000000005,
+  "tax_rate": 0.23548473232348377,
+  "beta": 0.354,
+  "week52_low": 999.2,
+  "week52_high": 1514.7,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

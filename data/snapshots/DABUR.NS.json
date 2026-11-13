@@ -1,0 +1,63 @@
+{
+  "ticker": "DABUR.NS",
+  "name": "Dabur India Limited",
+  "sector": "Consumer Defensive",
+  "industry": "Household & Personal Products",
+  "summary": "Dabur India Limited operates as a fast moving consumer goods company worldwide. It operates through Consumer Care Business, Foods Business, Retail Business, and Other segments. The company provides health supplements under the Dabur Chyawanprash, Dabur Honey, and Dabur Glucose brand name; digestive products under the Hajmola, Pudin Hara, Hingoli, Dabur Nature Care, and Sat Isabgol brands; cough and throat products under the Dabur Honitus brand name; baby care products under the Dabur Lal Tail; ayurvedic health juices; rejuvenators under the Dabur Shilajit brand name; Women's Health Tonics; and nutraceuticals under the Siens brand name, as well as Ayurvedic Ethicals. It also offers hair care products comprising hair oil and shampoo under the Dabur Amla, Vatika, and Dabur Almond brands; oral care products that includes toothpastes, gels, and toothpowders under the Dabur Red Paste, Dabur Ba",
+  "currency": "INR",
+  "price": 380.5,
+  "shares_cr": 177.4065197,
+  "market_cap": 67503.1810048,
+  "total_debt": 1287.32,
+  "cash": 5147.85,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    11426.51,
+    12261.65,
+    12400.01,
+    13042.0
+  ],
+  "ebitda": [
+    2598.78,
+    2868.13,
+    2850.38,
+    3014.83
+  ],
+  "ebit": [
+    2287.82,
+    2468.92,
+    2404.78,
+    2545.9
+  ],
+  "net_income": [
+    1707.15,
+    1842.68,
+    1767.63,
+    1895.03
+  ],
+  "da": [
+    310.96,
+    399.21,
+    445.6,
+    468.93
+  ],
+  "capex": [
+    509.09,
+    563.86,
+    569.54,
+    420.14
+  ],
+  "nwc": 82.69999999999982,
+  "tax_rate": 0.2279512318059188,
+  "beta": 0.428,
+  "week52_low": 354.3,
+  "week52_high": 534.0,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

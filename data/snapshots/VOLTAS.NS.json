@@ -1,0 +1,63 @@
+{
+  "ticker": "VOLTAS.NS",
+  "name": "Voltas Limited",
+  "sector": "Consumer Cyclical",
+  "industry": "Furnishings, Fixtures & Appliances",
+  "summary": "Voltas Limited operates as air conditioning and engineering solutions in India, the Middle East, Africa, and internationally. The company operates through three segments: Unitary Cooling Products; Electro - Mechanical Projects and Services; and Engineering Products and Services. The company manufactures, sells, and services cooling appliances and cold storage products, such as room air conditioners, water dispensers and coolers, visi coolers, chest and convertible freezers, cold rooms, medical refrigeration, air coolers and purifiers, water heaters, ducted AC, variable refrigerant flow, cassette and tower AC, and chillers, as well as refrigerators, washing machines, microwave ovens, dishwashers, dry iron, and mixer grinders. It also offers a comprehensive range of electromechanical services, including HVAC (heating, ventilation, and air conditioning), electrical systems, plumbing, firefi",
+  "currency": "INR",
+  "price": 1133.1,
+  "shares_cr": 33.088474,
+  "market_cap": 37492.5492224,
+  "total_debt": 992.48,
+  "cash": 1553.66,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    9399.37,
+    12407.36,
+    15320.45,
+    14122.99
+  ],
+  "ebitda": [
+    376.35,
+    589.27,
+    1314.64,
+    727.99
+  ],
+  "ebit": [
+    336.73,
+    541.68,
+    1252.86,
+    643.89
+  ],
+  "net_income": [
+    135.01,
+    252.0,
+    841.37,
+    375.88
+  ],
+  "da": [
+    39.62,
+    47.59,
+    61.78,
+    84.1
+  ],
+  "capex": [
+    179.93,
+    293.05,
+    208.18,
+    132.74
+  ],
+  "nwc": 1240.0199999999995,
+  "tax_rate": 0.33585826856455636,
+  "beta": 0.21,
+  "week52_low": 930.5,
+  "week52_high": 1582.5,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

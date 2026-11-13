@@ -1,0 +1,63 @@
+{
+  "ticker": "MARICO.NS",
+  "name": "Marico Limited",
+  "sector": "Consumer Defensive",
+  "industry": "Household & Personal Products",
+  "summary": "Marico Limited, together with its subsidiaries, manufactures and sells branded consumer products in India, Bangladesh, Vietnam, and internationally. It offers coconut oils, refined edible oils, hair oils, anti-lice treatments, fabric care, functional and other processed food, hair creams and gels, hair serums, shampoos, conditioners, shower gels, hair relaxers and straighteners, deodorants, female personal care, baby care, skin care, male grooming and hair styling, packaged food, health care, and hygiene products. The company markets its products under the Parachute, Parachute Advansed, Saffola, Hair & Care, Parachute Advansed, Nihar Naturals, Mediker, Pure Sense, Coco Soul, Revive, Set Wet, Livon, Just Herbs, True Elements, Kaya, Beardo, and Plix, HairCode, Fianc\u00e9e, Purit\u00e9 de Pr\u00f4vence, \u00d4liv, Lashe', Caivil, Hercules, Black Chic, Code 10, Ingwe, X-Men, Studio X, Thuan Phat and Isoplus br",
+  "currency": "INR",
+  "price": 900.0,
+  "shares_cr": 129.7992656,
+  "market_cap": 116819.3486848,
+  "total_debt": 557.0,
+  "cash": 2440.0,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    9689.0,
+    9573.0,
+    10733.0,
+    13548.0
+  ],
+  "ebitda": [
+    1930.0,
+    2143.0,
+    2329.0,
+    2517.0
+  ],
+  "ebit": [
+    1775.0,
+    1985.0,
+    2151.0,
+    2315.0
+  ],
+  "net_income": [
+    1302.0,
+    1481.0,
+    1629.0,
+    1762.0
+  ],
+  "da": [
+    155.0,
+    158.0,
+    178.0,
+    202.0
+  ],
+  "capex": [
+    182.0,
+    153.0,
+    161.0,
+    319.0
+  ],
+  "nwc": 1281.0,
+  "tax_rate": 0.20377689942907334,
+  "beta": 0.154,
+  "week52_low": 707.25,
+  "week52_high": 925.0,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}

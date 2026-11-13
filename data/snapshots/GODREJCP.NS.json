@@ -1,0 +1,63 @@
+{
+  "ticker": "GODREJCP.NS",
+  "name": "Godrej Consumer Products Limited",
+  "sector": "Consumer Defensive",
+  "industry": "Household & Personal Products",
+  "summary": "Godrej Consumer Products Limited, a fast-moving consumer goods company, manufactures and sells personal care and home care products in India, Africa, Indonesia, the Middle East, the United States, and internationally. The company offers household insecticides, home hygiene, and air and fabric care products; and personal wash and hygiene, hair color, beauty and professional products, and deodorants and fragrances. It provides its products under the Godrej Aer-O, Goodknight Agarbatti, Godrej Ninja, Godrej Good knight, Godrej aer, Godrej Expert, Darling, HIT, Godrej Ezee, Godrej No.1, CINTHOL, Ilicit, ISSUE, INECTO, Godrej magic, Godrej nupur, Godrej Professional, tcb, ROBY, Villeneuve, Millefiori, African Pride, Stella, Godrej spic, Godrej bloq, Mitu baby, NYU, Godrej Genteel, Park Avenune, Profectiy Mega Growth,and KamaSutra brands names. Godrej Consumer Products Limited was founded in 18",
+  "currency": "INR",
+  "price": 870.75,
+  "shares_cr": 102.3462075,
+  "market_cap": 89117.9630592,
+  "total_debt": 4415.81,
+  "cash": 2866.12,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "revenue": [
+    13198.68,
+    13974.06,
+    13917.06,
+    15100.09
+  ],
+  "ebitda": [
+    2476.07,
+    687.46,
+    3217.01,
+    3170.43
+  ],
+  "ebit": [
+    2239.78,
+    446.5,
+    2983.01,
+    2902.9
+  ],
+  "net_income": [
+    1702.46,
+    -560.55,
+    1852.3,
+    1861.47
+  ],
+  "da": [
+    236.29,
+    240.96,
+    234.0,
+    267.52
+  ],
+  "capex": [
+    227.4,
+    307.19,
+    599.34,
+    569.52
+  ],
+  "nwc": 1194.4900000000002,
+  "tax_rate": 0.2813301108811811,
+  "beta": 0.333,
+  "week52_low": 777.2,
+  "week52_high": 1273.9,
+  "source": "snapshot",
+  "as_of": "2026-11-13",
+  "warnings": []
+}
