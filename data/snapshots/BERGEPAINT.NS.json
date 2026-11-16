@@ -5,9 +5,9 @@
   "industry": "Specialty Chemicals",
   "summary": "Berger Paints India Limited manufactures and sells paints in India and internationally. The company offers interior wall coatings, including designer finishes, interior emulsions, and ceiling paints; exterior wall coatings comprising exterior emulsions and textures, and roof and floor coatings; putty and cement paints; solvent, interior, exterior, metal, and wood primers; enamels; wood finishes; waterproofing solutions; and tiling solutions. It also provides acrylic, silicate, and mineral plasters; thermal insulation adhesives; mortars; ready to use coat, wood effect, ribbed effect, concrete effect, and 3D effect; gel adhesives for ceramic tile flooring. The company was formerly known as British Paints (India) Limited and changed its name to Berger Paints India Limited in December 1983. The company was incorporated in 1923 and is based in Kolkata, India. Berger Paints India Limited opera",
   "currency": "INR",
-  "price": 475.5,
+  "price": 475.0,
   "shares_cr": 116.6002812,
-  "market_cap": 55443.4363392,
+  "market_cap": 55385.1355136,
   "total_debt": 635.13,
   "cash": 1279.94,
   "years": [
@@ -58,6 +58,6 @@
   "week52_low": 391.1,
   "week52_high": 594.55,
   "source": "snapshot",
-  "as_of": "2026-11-13",
+  "as_of": "2026-11-16",
   "warnings": []
 }
