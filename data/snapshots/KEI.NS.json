@@ -5,9 +5,9 @@
   "industry": "Electrical Equipment & Parts",
   "summary": "KEI Industries Limited manufactures, markets, and sells wires and cables in India and internationally. It operates in three segments: Cable & Wires; Engineering, Procurement and Construction; Stainless Steel Wire; and Other. The company offers extra high voltage cables, high voltage cables, low voltage cables, ESP cables, control cables, house wires, single core and multicore flexible cables, communication cables, instrumentation cables, thermocouple extension/compensating cables, solar cables, rubber cables, fire survival/resistant cables, marine and offshore cables, winding wires, stainless steel wires, medium voltage covered conductors, and EV charging cables and guns. It also provides engineering, procurement, and construction solutions in the areas of gas-insulated GIS, and air-insulated substations AIS; overhead and underground power transmission and distribution systems; and railw",
   "currency": "INR",
-  "price": 4020.0,
+  "price": 3800.6,
   "shares_cr": 9.5645595,
-  "market_cap": 38449.528832,
+  "market_cap": 36351.066112,
   "total_debt": 253.024,
   "cash": 1115.412,
   "years": [
@@ -55,9 +55,9 @@
   "nwc": 2907.874,
   "tax_rate": 0.25471648353075116,
   "beta": 0.621,
-  "week52_low": 3666.1,
+  "week52_low": 3653.1,
   "week52_high": 5899.0,
   "source": "snapshot",
-  "as_of": "2026-11-16",
+  "as_of": "2026-11-23",
   "warnings": []
 }

@@ -5,9 +5,9 @@
   "industry": "Household & Personal Products",
   "summary": "Hindustan Unilever Limited, a fast-moving consumer goods company, manufactures and sells food, home care, and personal care products in India and internationally. It operates through Home Care, Beauty & Wellbeing, Personal Care, Foods, and Others segments. The company offers detergent bars, detergent powders, detergent liquids, and scourers; skin care and hair care products; skin cleansing, oral care, bodywash, and deodorants; and culinary products, such as tomato based products, fruit based products, soups, etc., as well as tea, coffee, functional nutrition drinks, and lifestyle nutrition products. It is also involved in beauty salons, job work, real estate, and discharge trust business. Hindustan Unilever Limited was founded in 1888 and is headquartered in Mumbai, India.",
   "currency": "INR",
-  "price": 2000.3,
+  "price": 2019.1,
   "shares_cr": 234.9591262,
-  "market_cap": 469988.7501312,
+  "market_cap": 474405.9813888,
   "total_debt": 1478.0,
   "cash": 8409.0,
   "years": [
@@ -53,7 +53,7 @@
   "week52_low": 1758.2,
   "week52_high": 2488.0,
   "source": "snapshot",
-  "as_of": "2026-11-16",
+  "as_of": "2026-11-23",
   "warnings": [
     "No D&A history returned."
   ]
